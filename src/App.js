@@ -1,23 +1,64 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Opcion from './Opcion';
+import Resultado from './Resultado';
 import './App.css';
 
 function App() {
+
+  const [eleccionJugador, setEleccionJugador] = useState({})
+  const [eleccionMaquina, setEleccionMaquina] = useState({})
+
+  const opciones = [
+    {
+      eleccion: "piedra",
+      derrota: "tijera"
+    },
+    {
+      eleccion: "papel",
+      derrota: "piedra"
+    },
+    {
+      eleccion: "tijera",
+      derrota: "papel" 
+    }
+  ]
+
+  const elegirOpcion = (event) => {
+    const jugador = opciones.find(e => e.eleccion === event.target.
+      textContent)
+    setEleccionJugador(jugador);
+    eleccionRival()
+  }
+
+  const eleccionRival = () => {
+    const eleccion = opciones[Math.floor(Math.random() * opciones.
+      length)]
+
+      setEleccionMaquina(eleccion)
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Resultado jugador={eleccionJugador} maquina={eleccionMaquina}/>
+      <main>
+        <section>
+        <div className="jugador">Jugador</div>
+        <div className="eleccion">{eleccionJugador.eleccion}</div>
+          <section>
+          </section>
+            <div className="maquina">Maquina</div>
+            <div className="elecion">{eleccionMaquina.eleccion}</div>
+          </section>
+      </main>
+      <div className="opciones">
+        {
+          opciones.map((e, index) => <Opcion
+                                      elegir={elegirOpcion} 
+                                      valor={opciones[index]}
+                                      />)
+        }
+      </div>
     </div>
   );
 }
